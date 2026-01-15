@@ -10,8 +10,6 @@ import { LatestInvoicesSkeleton, RevenueChartSkeleton } from '@/app/ui/skeletons
 
 export default async function Page() {
 
-
-
     const { totalPaidInvoices, totalPendingInvoices, numberOfCustomers, numberOfInvoices } = await fetchCardData();
 
     return (
