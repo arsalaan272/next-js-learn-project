@@ -1,16 +1,13 @@
-export const dynamic = "force-dynamic";
-
-import { Card } from '@/app/ui/dashboard/cards';
+import CardWrapper, { Card } from '@/app/ui/dashboard/cards';
 import RevenueChart from '@/app/ui/dashboard/revenue-chart';
 import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
-import { fetchCardData } from '../../lib/data';
-import { LatestInvoicesSkeleton, RevenueChartSkeleton } from '@/app/ui/skeletons';
+import { CardSkeleton, LatestInvoicesSkeleton, RevenueChartSkeleton } from '@/app/ui/skeletons';
 
 export default async function Page() {
 
-    const { totalPaidInvoices, totalPendingInvoices, numberOfCustomers, numberOfInvoices } = await fetchCardData();
+    // const { totalPaidInvoices, totalPendingInvoices, numberOfCustomers, numberOfInvoices } = await fetchCardData();
 
     return (
         <main>
@@ -18,18 +15,24 @@ export default async function Page() {
                 Dashboard
             </h1>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                <Card title="Collected" value={totalPaidInvoices} type="collected" />
+                
+                {/* <Card title="Collected" value={totalPaidInvoices} type="collected" />
                 <Card title="Pending" value={totalPendingInvoices} type="pending" />
                 <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
                 <Card
                     title="Total Customers"
                     value={numberOfCustomers}
                     type="customers"
-                />
+                /> */}
+
+                <Suspense fallback={ <CardSkeleton />}>
+                    <CardWrapper />
+                </Suspense>
             </div>
             <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
                 <Suspense fallback={<RevenueChartSkeleton />}>
                     <RevenueChart />
+                    {/* we will delete the props from RevenueChart ( from here page.tsx and from RevenueChart.tsx) and in the RevenueChart.tsx we will call the fetchRevenue()to make it stream its own data. Then we will wrap it inside a Suspense component. */}
                 </Suspense>
 
                 <Suspense fallback={<LatestInvoicesSkeleton />}>
